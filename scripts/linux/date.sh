@@ -14,6 +14,7 @@ firstDay=`date +%Y-%m-01`
 
 yesterday1=`date --date="1 days ago" +%Y-%m-%d`
 yesterday2=`date -d "-1 day" +%Y-%m-%d`
+yesterday3=`date -d "-1 day" +%F`
 
 plusDay1=`date -d "1 day 20160101" +%Y-%m-%d`
 plusDay2=`date -d "1 day 2016-01-01" +%Y-%m-%d`
