@@ -4,10 +4,19 @@
 spark-shell --mode yarn-client
 
 spark2-shell --master yarn \
-  --num-executors 5 \
-  --executor-cores 2 \
-  --executor-memory 4g \
+  --num-executors 17 \
+  --executor-cores 4 \
+  --executor-memory 8g \
+  --conf spark.executor.memoryOverhead=4g \
   --conf spark.dynamicAllocation.enabled=false \
-  --conf spark.sql.catalogImplementation=hive \
+  --conf spark.shuffle.service.enabled=false \
+  --conf drop.sql.adaptive.enabled=true \
+  --conf drop.sql.adaptive.join.enabled=true \
+  --conf drop.sql.adaptive.skewedJoin.enabled=true \
+  --conf drop.sql.auto.repartition=true \
+  --conf spark.speculation=true \
+  --conf drop.sql.cbo.enabled=true \
+  --conf drop.sql.sources.partitionOverwriteMode=dynamic \
+  --conf drop.sql.catalogImplementation=hive \
   --keytab /data/keytab/user.keytab \
   --principal user@mail.cn

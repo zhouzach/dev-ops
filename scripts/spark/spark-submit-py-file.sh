@@ -23,7 +23,7 @@
 --conf drop.sql.sources.partitionOverwriteMode=dynamic \
 --keytab /home/keytab/user.keytab \
 --principal user@example.cn \
-job.jar "task:timer dt:2019-08-19 type:infer" > linfer.log 2>&1 &
+job.py > linfer.log 2>&1 &
 
 
 
