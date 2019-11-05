@@ -21,6 +21,7 @@
 --conf spark.speculation=true \
 --conf drop.sql.cbo.enabled=true \
 --conf drop.sql.sources.partitionOverwriteMode=dynamic \
+--conf "spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps" \
 --keytab /home/keytab/user.keytab \
 --principal user@example.cn \
 job.jar "task:timer dt:2019-08-19 type:infer" > linfer.log 2>&1 &
