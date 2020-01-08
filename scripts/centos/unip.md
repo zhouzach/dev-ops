@@ -17,17 +17,16 @@ uniq(选项)(参数)
 输出文件：指定要去除重复行后的内容要写入的输出文件。如果不指定此选项，则将内容显示到标准输出设备（显示终端）。
 实例
 删除重复行：
-
 uniq file.txt
 sort file.txt | uniq
 sort -u file.txt
-只显示单一行：
 
+只显示单一行：
 uniq -u file.txt
 sort file.txt | uniq -u
+
 统计各行在文件中出现的次数：
-
 sort file.txt | uniq -c
-在文件中找出重复的行：
 
+在文件中找出重复的行：
 sort file.txt | uniq -d
