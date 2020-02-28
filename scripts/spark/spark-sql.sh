@@ -13,7 +13,7 @@
 --conf spark.default.parallelism=120 \
 --conf spark.storage.memoryFraction=0.5 \
 --conf spark.shuffle.memoryFraction=0.3 \
---conf drop.sql.shuffle.partitions=600 \
+--conf spark.sql.shuffle.partitions=600 \
 --conf spark.network.timeout=600 \
  --conf drop.sql.crossJoin.enabled=true
 

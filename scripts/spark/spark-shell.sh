@@ -10,13 +10,13 @@ spark2-shell --master yarn \
   --conf spark.executor.memoryOverhead=4g \
   --conf spark.dynamicAllocation.enabled=false \
   --conf spark.shuffle.service.enabled=false \
-  --conf drop.sql.adaptive.enabled=true \
-  --conf drop.sql.adaptive.join.enabled=true \
-  --conf drop.sql.adaptive.skewedJoin.enabled=true \
-  --conf drop.sql.auto.repartition=true \
+  --conf spark.sql.adaptive.enabled=true \
+  --conf spark.sql.adaptive.join.enabled=true \
+  --conf spark.sql.adaptive.skewedJoin.enabled=true \
+  --conf spark.sql.auto.repartition=true \
   --conf spark.speculation=true \
-  --conf drop.sql.cbo.enabled=true \
-  --conf drop.sql.sources.partitionOverwriteMode=dynamic \
-  --conf drop.sql.catalogImplementation=hive \
+  --conf spark.sql.cbo.enabled=true \
+  --conf spark.sql.sources.partitionOverwriteMode=dynamic \
+  --conf spark.sql.catalogImplementation=hive \
   --keytab /data/keytab/user.keytab \
   --principal user@mail.cn

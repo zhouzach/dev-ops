@@ -9,21 +9,18 @@
 --master yarn \
 --deploy-mode client \
 --driver-memory 1g \
---num-executors 20 \
---executor-cores 4 \
 --executor-memory 8g \
 --conf spark.dynamicAllocation.enabled=false \
 --conf spark.shuffle.service.enabled=false \
---conf spark.sql.adaptive.enabled=true \
---conf spark.sql.adaptive.join.enabled=true \
---conf spark.sql.adaptive.skewedJoin.enabled=true \
 --conf spark.sql.auto.repartition=true \
---conf spark.speculation=true \
 --conf spark.sql.cbo.enabled=true \
 --conf spark.sql.sources.partitionOverwriteMode=dynamic \
+--num-executors 1 --executor-cores 1 \
+--conf "spark.executor.extraJavaOptions=-agentlib:jdwp=transport=dt_socket,server=n,address=local-computer-ip:5005,suspend=n" \
+--driver-java-options -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 \
 --keytab /home/keytab/user.keytab \
 --principal user@example.cn \
-job.py > linfer.log 2>&1 &
+job.jar "task:timer dt:2019-08-19 type:infer" > linfer.log 2>&1 &
 
 
 
