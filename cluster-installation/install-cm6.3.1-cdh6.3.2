@@ -34,6 +34,10 @@ getenforce
 
 Step 1: Configure a Repository for Cloudera Manager
 1.Download the cloudera-manager.repo file
+https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/
+https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/RPMS/x86_64/
+yum localinstall cloudera-manager-daemons-6.3.1-1466458.el7.x86_64.rpm
+
 wget https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/cloudera-manager.repo  -P /etc/yum.repos.d/
 
 把默认的CentOS Yum源修改成国内的aliyun Yum源
@@ -128,9 +132,7 @@ cp mysql-connector-java-5.1.46-bin.jar /usr/share/java/mysql-connector-java.jar
 
 Creating Databases for Cloudera Software
 mkdir init_db
-mysql -u root -p123456 < ~/init_db/db.sql
-mysql -u root -p123456 < ~/init_db/grant.sql
-mysql -u root -p123456 < ~/init_db/create_scm_db.sql
+mysql -u root -p123456 < ~/init_db/create-grant.sql
 
 
 
