@@ -3,7 +3,8 @@
 
 spark-shell --mode yarn-client
 
-spark2-shell --master yarn \
+spark-shell --master yarn \
+  --deploy-mode client \
   --num-executors 17 \
   --executor-cores 4 \
   --executor-memory 8g \

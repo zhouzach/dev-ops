@@ -1,19 +1,20 @@
+https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL
 
 -- parquet
 CREATE EXTERNAL TABLE IF NOT EXISTS db1.tb1 (
 order_id	        string,
 order_time	        string,
+x FLOAT,
 price	        decimal(30,2)
 )
 COMMENT 'partitioned table'
 PARTITIONED BY(year INT, month INT, day INT)
-STORED AS parquet
-LOCATION '/data/db1/tb1'
+STORED AS parquet;
 
 
 CREATE EXTERNAL TABLE db1.t1
 (id bigint, name STRING, age STRING)
-STORED AS PARQUET LOCATION '/user/snappy/db1/t1/';
+STORED AS PARQUET;
 
 load data inpath '/user/snappy/db1/t1/part-00000-920105fb-0f0e-441e-b30b-4aab8b18e03c.snappy.parquet' into table db1.t1;
 
@@ -32,8 +33,7 @@ CREATE EXTERNAL TABLE IF NOT EXISTS names_text(
   COMMENT 'Student Names'
   ROW FORMAT DELIMITED
   FIELDS TERMINATED BY ','
-  STORED AS TEXTFILE
-  LOCATION '/user/andrena';
+  STORED AS TEXTFILE;
 
 
 

@@ -1,0 +1,10 @@
+
+CREATE EXTERNAL TABLE IF NOT EXISTS db1.tb1 (
+    state string,
+    code int,
+    tele bigint
+)
+PARTITIONED BY (STATE INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS parquet;

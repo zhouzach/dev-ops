@@ -1,0 +1,28 @@
+
+
+
+1.java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+
+引入maven依赖
+<dependency>
+   <groupId>mysql</groupId>
+   <artifactId>mysql-connector-java</artifactId>
+   <version>8.0.15</version>
+</dependency>
+
+
+2.No suitable driver found for jdbc in Spark
+https://stackoverflow.com/questions/34764505/no-suitable-driver-found-for-jdbc-in-spark
+
+I had to add the driver option when using the sparkSession's read function.
+
+.option("driver", "org.postgresql.Driver")
+
+var jdbcDF - sparkSession.read
+  .option("driver", "org.postgresql.Driver")
+  .option("url", "jdbc:postgresql://<host>:<port>/<DBName>")
+  .option("dbtable", "<tableName>")
+  .option("user", "<user>")
+  .option("password", "<password>")
+  .load()
+Depending on how your dependencies are setup, you'll notice that when you include something like compile group: 'org.postgresql', name: 'postgresql', version: '42.2.8' in Gradle, for example, this will include the Driver class at org/postgresql/Driver.class, and that's the one you want to instruct spark to load.
