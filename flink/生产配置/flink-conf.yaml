@@ -1,0 +1,24 @@
+
+# High Availability
+high-availability: zookeeper
+high-availability.zookeeper.quorum: cdh1:2181,cdh2:2181,cdh3:2181
+high-availability.storageDir: hdfs://nameservice1/flink/recovery
+high-availability.zookeeper.path.root: /flink
+yarn.application-attempts: 4
+
+# Fault tolerance and checkpointing
+state.checkpoints.dir: hdfs://nameservice1/flink/checkpoints/
+state.checkpoints.num-retained: 10
+state.savepoints.dir: hdfs://nameservice1/flink/savepoints
+
+
+# Child first classloading allows users to use different dependency/library
+# versions in their application than those in the classpath. Switching back
+# to 'parent-first' may help with debugging dependency issues.
+#
+classloader.resolve-order: parent-first
+
+
+
+
+

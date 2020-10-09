@@ -1,0 +1,3 @@
+
+whereis java
+which java

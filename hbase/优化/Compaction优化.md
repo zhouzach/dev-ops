@@ -1,0 +1,9 @@
+
+https://juejin.im/post/5d10a87151882532141351f4
+
+hbase.hstore.compaction.min当一个Store中文件超过该值时，会进行Compaction，适当增大该值，可以减少文件被重复
+执行Compaction。但是如果过大，会导致Store中文件数过多而影响读取的性能。hbase.hstore.compaction.max控制
+一次Compaction操作时的文件数据量的最大值。hbase.hstore.compaction.max.size如果一个HFile文件的大小大于该值，那
+么在Minor Compaction操作中不会选择这个文件进行Compaction操作，除非进行Major Compaction操作。这个值可以防止较大的HFile参与Compaction操作。
+在禁止Major Compaction后，一个Store中可能存在几个HFile，而不会合并成为一个HFile，这样不会对数据读取造成太大的性能影响。
+

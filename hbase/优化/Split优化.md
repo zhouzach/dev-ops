@@ -1,0 +1,4 @@
+
+hbase.hregion.max.filesize表示HBase中Region的文件总大小的最大值。当Region中的文件大于该参数时，将会导致Region分裂。如果该参数设置过小时，
+可能会导致Split操作频繁如果该参数设置过大时，会导致Compaction操作需要处理的文件个数增大，影响Compaction执行效率
+

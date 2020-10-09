@@ -1,0 +1,114 @@
+
+https://cloud.tencent.com/developer/article/1544868
+
+1
+
+问题重现
+
+通过Cloudera Manager主页访问“主机”页面，发现其中一台主机有2条重复的记录，一条有角色相关信息但是心跳明显超时很久了，另外一台有心跳但是没有主机角色信息，而且所有主机都是未知状态，如下：
+
+
+回到Cloudera Manager主页也发现无论是Cloudera Management Service还是集群的Hadoop服务都是未知状态。
+
+
+重启Cloudera Management Service显示失败：
+
+
+测试环境
+1.CDH6.1
+
+2.Redhat7.4
+
+3.采用root进行操作
+
+2
+
+问题解决
+
+1.首先我们登录MySQL，并查看Cloudera Manager数据库的HOSTS表进行核对。
+
+mysql -u root -p
+use cm;
+SELECT HOST_ID,NAME,IP_ADDRESS,HOST_IDENTIFIER FROM HOSTS;
+Fayson的集群一共4台机器，发现确实有5台主机，并且IP为172.31.6.83有两台机器：
+
+
+2.查看Cloudera Manager数据库的ROLES_AUD即角色表确认172.31.6.83有角色的HOST_ID。
+
+MariaDB [cm]> select * from ROLES_AUD order by HOST_ID;
+
+对应第1步的HOSTS表的数据，发现并没有HOST_ID为5的数据，所以我们主要需要处理HOST_ID为5同时IP也为172.31.6.83的数据。
+
+3.从第1步的HOSTS表的数据记录重复的172.31.6.83主机的HOST_IDENTIFIER值。
+
+MariaDB [cm]> SELECT HOST_ID,NAME,IP_ADDRESS,HOST_IDENTIFIER FROM HOSTS where IP_ADDRESS='172.31.6.83';
+
+HOST_ID为1的HOST_IDENTIFIER值为5b72bbe2-b332-4aff-959d-6f705205365b
+
+HOST_ID为5的HOST_IDENTIFIER值为2ac39f58-b166-4cd7-8b72-b718398ec02a
+
+4.查看172.31.6.83主机的Cloudera Agent的真实UUID。
+
+[root@ip-172-31-6-83 ~]# cd /var/lib/cloudera-scm-agent
+[root@ip-172-31-6-83 cloudera-scm-agent]# cat uuid
+[root@ip-172-31-6-83 cloudera-scm-agent]#
+
+确认真实的Agent uuid与第4步中的HOST_ID为5的HOST_IDENTIFIER值一致，接下来我们开始进行处理。
+
+5.首先停止172.31.6.83主机的Agent服务。
+
+[root@ip-172-31-6-83 ~]# systemctl stop cloudera-scm-agent
+[root@ip-172-31-6-83 ~]# systemctl status cloudera-scm-agent
+
+6.从Cloudera Manager的“主机”页面删除没有角色的172.31.6.83主机，根据前面第2步其实我们也能判定删除的是HOST_ID为5的那条信息。
+
+
+
+
+删除成功：
+
+
+7.停止Cloudera Manager Server的服务
+
+[root@ip-172-31-6-83 ~]# systemctl stop cloudera-scm-server
+[root@ip-172-31-6-83 ~]# systemctl status cloudera-scm-server
+
+8.使用MySQL自带的命令备份CM数据库，mysqldump，这里省略，不清楚的可以自己百度。
+
+9.将172.31.6.83主机的Agent UUID的文件中的值改为第3步骤中HOST_ID为1的HOST_IDENTIFIER值，即5b72bbe2-b332-4aff-959d-6f705205365b
+
+[root@ip-172-31-6-83 ~]# cd /var/lib/cloudera-scm-agent
+[root@ip-172-31-6-83 cloudera-scm-agent]# echo -n "5b72bbe2-b332-4aff-959d-6f705205365b" > uuid
+[root@ip-172-31-6-83 cloudera-scm-agent]#
+
+10.重启172.31.6.83主机上的Cloudera Manager Server以及Agent服务
+
+[root@ip-172-31-6-83 ~]# systemctl start cloudera-scm-server
+[root@ip-172-31-6-83 ~]# systemctl start cloudera-scm-agent
+
+11.回到Cloudera Manager主页重启CMS服务
+
+
+
+启动成功
+
+
+12.重启集群所有服务
+
+
+重启后，整个集群恢复正常：
+
+
+3
+
+总结
+
+1.当集群的某台主机你更新了OS，或硬件配置或者进行了CDH升级，或者你手动操作修改了Agent的UUID文件都可能导致Cloudera Manager的主机页面有重复的主机显示。
+
+2.一旦有重复主机显示，该主机其实严格意义上不属于集群的一部分了，没办法使用Cloudera Manager来管理这台主机比如重启这台机器上的相关服务。
+
+3.Fayson本次测试模拟的有重复显示的主机刚好是CMS服务所在的主机，所以直接导致整个集群的状态不可监控，重启CMS服务也直接失败，如果是某台DataNode出现重复，不会出现这么恶劣的情况。
+
+4.本文提供的修改Agent的UUID文件是其中的一种办法，你也可以直接修改MySQL数据库来实现，目的就是MySQL中保存的数据需要与Agent本地的UUID文件匹配。
+
+5.注意修改Agent的uuid文件务必使用echo -n命令。

@@ -1,0 +1,8 @@
+
+
+MemStore在flush之前，会进行StoreFile的文件数量校验（通过hbase.hstore.blockingStoreFiles参数配置），
+如果大于设定值，系统将会强制执行Compaction操作进行文件合并，在合并的过程中会阻塞MemStore的数据写入，等待其他线程
+将StoreFile进行合并。通常情况下发生在数据写入很快的情况下。hbase.hstore.compactionThreshold表示启动Compaction的
+最低阈值，该值不能太大，否则会积累太多文件，一般建议设置为5～8左右。
+hbase.hstore.blockingStoreFiles默认设置为7，可以适当调大一些。
+
