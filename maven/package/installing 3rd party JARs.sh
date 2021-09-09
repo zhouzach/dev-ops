@@ -1,7 +1,7 @@
 
-mvn install:install-file -Dfile=/Users/Zach/dev-apps/sources/phoenix-1/phoenix-client/target/phoenix-client-5.1.0-SNAPSHOT.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-client -Dversion=5.1.0-SNAPSHOT -Dpackaging=jar
+#mvn install:install-file -Dfile=/Users/Zach/dev-apps/sources/phoenix-1/phoenix-client/target/phoenix-client-5.1.0-SNAPSHOT.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-client -Dversion=5.1.0-SNAPSHOT -Dpackaging=jar
 #mvn install:install-file -Dfile=/Users/Zach/jars/phoenix/phoenix-core-5.0.0-cdh6.2.0.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-core -Dversion=5.0.0-cdh6.2.0 -Dpackaging=jar
-#mvn install:install-file -Dfile=/Users/Zach/jars/phoenix-client/phoenix-5.0.0-cdh6.2.0-client.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-client -Dversion=5.0.0-cdh6.2.0 -Dpackaging=jar
+mvn install:install-file -Dfile=/Users/Zach/jars/phoenix-client/phoenix-5.0.0-cdh6.2.0-client.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-client -Dversion=5.0.0-cdh6.2.0 -Dpackaging=jar
 #mvn install:install-file -Dfile=/Users/Zach/jars/phoenix-client/phoenix-5.0.0-cdh6.2.0-thin-client.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-thin-client -Dversion=5.0.0-cdh6.2.0 -Dpackaging=jar
 #mvn install:install-file -Dfile=/Users/Zach/jars/phoenix-client/phoenix-spark-5.0.0-cdh6.2.0.jar  -DgroupId=org.apache.phoenix -DartifactId=phoenix-spark -Dversion=5.0.0-cdh6.2.0 -Dpackaging=jar
 

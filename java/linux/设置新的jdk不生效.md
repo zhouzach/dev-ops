@@ -1,0 +1,1 @@
+删除/etc/alternatives和/usr/bin中的java

@@ -19,6 +19,7 @@ HOSTNAME=foo-1.example.com
 2.Disabling the Firewall
 systemctl disable firewalld
 systemctl stop firewalld
+systemctl status firewalld
 
 3.disable SELinux
 getenforce(the output is Permissive or Disabled)
@@ -27,8 +28,8 @@ getenforce(the output is Permissive or Disabled)
 卸载chrony，然后安装ntp
 https://cloud.tencent.com/developer/article/1424478
 
-5.disable SELinux
-getenforce
+yum -y remove chrony
+yum -y install ntp
 
 二、Installing Cloudera Manager, CDH, and Managed Services
 
@@ -51,26 +52,34 @@ yum makecache
 rpm --import https://archive.cloudera.com/cm6/6.3.1/redhat7/yum/RPM-GPG-KEY-cloudera
 
 Step 2: Install Java Development Kit
-yum install oracle-j2sdk1.8
+yum install -y oracle-j2sdk1.8
+
+vim /etc/profile
+export JAVA_HOME=/usr/java/jdk1.8.0_181-cloudera
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 
 
 Step 3: Install Cloudera Manager Server
-yum install cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server
+yum localinstall -y cloudera-manager-daemons cloudera-manager-agent cloudera-manager-server
 
 Step 4: Install and Configure Databases
 wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
 rpm -ivh mysql-community-release-el7-5.noarch.rpm
 yum update
-yum install mysql-server
+yum install -y mysql-server
 vi /etc/my.cnf
 Here is an option file with Cloudera recommended settings:
 [mysqld]
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
-transaction-isolation = READ-COMMITTED
+
 # Disabling symbolic-links is recommended to prevent assorted security risks;
 # to do so, uncomment this line:
 symbolic-links = 0
+
+sql_mode=STRICT_ALL_TABLES
+transaction-isolation = READ-COMMITTED
 
 key_buffer_size = 32M
 max_allowed_packet = 32M
@@ -114,7 +123,6 @@ innodb_log_file_size = 512M
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 
-sql_mode=STRICT_ALL_TABLES
 
 
 
@@ -132,7 +140,7 @@ cp mysql-connector-java-5.1.46-bin.jar /usr/share/java/mysql-connector-java.jar
 
 Creating Databases for Cloudera Software
 mkdir init_db
-mysql -u root -p123456 < ~/init_db/create-grant.sql
+mysql -u root -p123456 < /data/create-grant.sql
 
 
 

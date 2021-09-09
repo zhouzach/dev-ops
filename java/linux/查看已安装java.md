@@ -1,0 +1,2 @@
+
+alternatives --config java

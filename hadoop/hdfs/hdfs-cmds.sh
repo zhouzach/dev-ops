@@ -15,3 +15,6 @@ fi
 
 
 hadoop fs -mv /user/hadoop/file1 /user/hadoop/file2
+
+#To find out where hdfs is runing, use
+hdfs getconf -confKey fs.defaultFS #to get the default hostname and port HDFS is listening on.

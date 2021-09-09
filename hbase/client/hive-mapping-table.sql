@@ -1,4 +1,6 @@
 
+-- https://cwiki.apache.org/confluence/display/Hive/HBaseIntegration
+
 -- https://www.coder.work/article/732002
 
 -- hbase.columns.mapping中注意在hbase的二进制类型的column后面使用#b

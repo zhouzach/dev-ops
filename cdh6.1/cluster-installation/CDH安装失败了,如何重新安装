@@ -14,14 +14,22 @@ https://blog.csdn.net/worldchinalee/article/details/81126382
 
      # rm -rf /opt/dfs/dn/*
 
-4> 在主节点上重新初始化CM数据库
+
+4>    删除Kafka broker.id配置
+     /var/local/kafka/data/meta.properties
+
+5> 在主节点上重新初始化CM数据库
 
      # /usr/share/cmf/schema/scm_prepare_database.sh mysql -uroot -proot scm scm scm
+     /opt/cloudera/cm/schema/scm_prepare_database.sh mysql scm scm scm
 
-5> 执行启动脚本
+6> 执行启动脚本
 
-     主节点：# service cloudera-scm-server start
+     主节点：# systemctl start cloudera-scm-server
 
      Agent节点：# service cloudera-scm-agent start
+
+     tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log
+     tail -f /var/log/cloudera-scm-agent/cloudera-scm-agent.log
 
 过一会儿，即可通过主节点的7180端口重新进行CDH的安装 http://主节点IP:7180/cmf/login。
