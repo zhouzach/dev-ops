@@ -215,7 +215,9 @@ sudo -u hdfs hdfs dfs -rm -r -skipTrash /data/dw/banban/config_giftlist
 
 三、CDH6.3添加flink
 
-1.export HADOOP_CLASSPATH=`hadoop classpath`
+1.
+export HADOOP_CLASSPATH=`hadoop classpath`
+export HADOOP_USER_NAME=hdfs
 2.conf/workers
 
 
