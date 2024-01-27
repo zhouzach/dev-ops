@@ -1,0 +1,26 @@
+
+验证脚本失败：
+
+org.apache.phoenix.schema.TableNotFoundException: ERROR 1012 (42M03): Table undefined. tableName=SYSTEM.CATALOG
+at org.apache.phoenix.compile.FromCompiler$BaseColumnResolver.createTableRef(FromCompiler.java:604)
+at org.apache.phoenix.compile.FromCompiler$SingleTableColumnResolver.<init>(FromCompiler.java:396)
+at org.apache.phoenix.compile.FromCompiler$SingleTableColumnResolver.<init>(FromCompiler.java:388)
+at org.apache.phoenix.compile.FromCompiler.getResolverForMutation(FromCompiler.java:305)
+at org.apache.phoenix.compile.UpsertCompiler.compile(UpsertCompiler.java:352)
+at org.apache.phoenix.jdbc.PhoenixStatement$ExecutableUpsertStatement.compilePlan(PhoenixStatement.java:784)
+at org.apache.phoenix.jdbc.PhoenixStatement$ExecutableUpsertStatement.compilePlan(PhoenixStatement.java:770)
+at org.apache.phoenix.jdbc.PhoenixPreparedStatement.getParameterMetaData(PhoenixPreparedStatement.java:253)
+at org.apache.phoenix.schema.MetaDataClient.addColumnMutation(MetaDataClient.java:969)
+at org.apache.phoenix.schema.MetaDataClient.createTableInternal(MetaDataClient.java:2610)
+at org.apache.phoenix.schema.MetaDataClient.createTable(MetaDataClient.java:1114)
+at org.apache.phoenix.compile.CreateTableCompiler$1.execute(CreateTableCompiler.java:198)
+at org.apache.phoenix.jdbc.PhoenixStatement$2.call(PhoenixStatement.java:408)
+at org.apache.phoenix.jdbc.PhoenixStatement$2.call(PhoenixStatement.java:391)
+at org.apache.phoenix.call.CallRunner.run(CallRunner.java:53)
+at org.apache.phoenix.jdbc.PhoenixStatement.executeMutation(PhoenixStatement.java:390)
+at org.apache.phoenix.jdbc.PhoenixStatement.executeMutation(PhoenixStatement.java:378)
+at org.apache.phoenix.jdbc.PhoenixPreparedStatement.execute(PhoenixPreparedStatement.java:173)
+at org.apache.phoenix.jdbc.PhoenixPreparedStatement.execute(PhoenixPreparedStatement.java:183)
+at org.apache.phoenix.jdbc.PhoenixConnection.executeStatements(PhoenixConnection.java:470)
+at org.apache.phoenix.util.PhoenixRuntime.executeStatements(PhoenixRuntime.java:348)
+at org.apache.phoenix.util.PhoenixRuntime.main(PhoenixRuntime.java:295)

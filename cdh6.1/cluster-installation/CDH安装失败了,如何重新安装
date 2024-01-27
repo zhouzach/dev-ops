@@ -14,6 +14,8 @@ https://blog.csdn.net/worldchinalee/article/details/81126382
 
      # rm -rf /opt/dfs/dn/*
 
+     # rm -rf /opt/yarn/nm/*
+
 
 4>    删除Kafka broker.id配置
      /var/local/kafka/data/meta.properties

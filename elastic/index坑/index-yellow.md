@@ -1,0 +1,1 @@
+https://opster.com/guides/elasticsearch/operations/elasticsearch-yellow-status/

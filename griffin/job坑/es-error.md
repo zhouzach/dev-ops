@@ -1,0 +1,2 @@
+2022-04-28 06:42:20.594 ERROR 28992 --- [nio-8080-exec-8] o.a.g.c.m.MetricServiceImpl             [108]  : Failed to get metric values named predicate_job. method [GET], host [http://192.168.100.211:9200], URI [/griffin/accuracy/_search?filter_path=hits.hits._source], status line [HTTP/1.1 400 Bad Request]
+{"error":"no handler found for uri [/griffin/accuracy/_search?filter_path=hits.hits._source] and method [GET]"}

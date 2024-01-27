@@ -6,6 +6,9 @@ https://docs.cloudera.com/documentation/enterprise/6/6.3/topics/installation_req
 一、Before install
 1.Configure Network Names
 hostnamectl set-hostname foo-1.example.com
+hostnamectl set-hostname dm-host118
+hostnamectl set-hostname dm-host211
+hostnamectl set-hostname dm-host214
 
 /etc/hosts:
 1.1.1.1  foo-1.example.com  foo-1
@@ -15,6 +18,11 @@ hostnamectl set-hostname foo-1.example.com
 
 vi /etc/sysconfig/network
 HOSTNAME=foo-1.example.com
+HOSTNAME=dm-host118
+HOSTNAME=dm-host211
+HOSTNAME=dm-host214
+
+echo `hostname` > /etc/hostname
 
 2.Disabling the Firewall
 systemctl disable firewalld
@@ -25,6 +33,7 @@ systemctl status firewalld
 vim /etc/selinux/config
 SELINUX=permissive
 
+或者
 # disable SELinux immediately
 setenforce 0
 getenforce(the output is Permissive or Disabled)
@@ -36,9 +45,20 @@ https://cloud.tencent.com/developer/article/1424478
 yum -y remove chrony
 yum -y install ntp
 
+systemctl start ntpd
+systemctl status ntpd
+
 5.配置免密
 ssh-keygen
 ssh-copy-id
+
+6.设置swap
+vim /etc/sysctl.conf
+vm.swappiness=1
+
+7.关闭透明大页面压缩
+echo never > /sys/kernel/mm/transparent_hugepage/defrag
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
 
 二、Installing Cloudera Manager, CDH, and Managed Services
 

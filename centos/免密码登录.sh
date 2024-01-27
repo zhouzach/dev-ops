@@ -20,3 +20,15 @@ ssh-copy-id hadoop03
 ssh-copy-id hadoop04
 ssh-copy-id hadoop05
 ssh-copy-id hadoop06
+
+
+自身免密
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+
+su dolphinscheduler
+
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys

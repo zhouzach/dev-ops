@@ -1,3 +1,3 @@
 
 CREATE DATABASE IF NOT EXISTS database_name
-  [COMMENT database_comment]
+location '/data/ods/database_name';

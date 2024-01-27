@@ -1,0 +1,72 @@
+
+https://nightlies.apache.org/flink/flink-docs-master/docs/deployment/resource-providers/standalone/overview/
+
+https://zhuanlan.zhihu.com/p/141347820
+
+一、Standalone Cluster部署
+vim conf/flink-conf.yaml
+jobmanager.rpc.address: dm-host214
+rest.port: 8081
+rest.address: dm-host214
+
+
+vim conf/masters
+dm-host214:8081
+
+vim conf/workers
+dm-host118
+dm-host211
+dm-host214
+
+
+scp -r flink-1.14.3 wh1:/data/opt/
+scp -r flink-1.14.3 wh2:/data/opt/
+
+
+vim /etc/profile
+export FLINK_HOME=/data/opt/flink-1.14.3
+export PATH=$FLINK_HOME/bin:$PATH
+source /etc/profile
+
+./bin/start-cluster.sh
+
+
+
+hdfs dfs -mkdir -p /data/app/input-data/
+hdfs dfs -mkdir -p /data/app/output
+hadoop fs -put words /data/app/input-data/
+
+flink run ./examples/batch/WordCount.jar --input hdfs:///data/app/input-data/words --output hdfs:///data/app/output/0429
+
+./bin/stop-cluster.sh
+
+二、Standalone Cluster HA部署
+vim conf/flink-conf.yaml
+high-availability: zookeeper
+high-availability.storageDir: hdfs:///flink/ha/
+high-availability.zookeeper.quorum: dm-host118:2181,dm-host211:2181,dm-host214:2181
+high-availability.zookeeper.path.root: /flink
+high-availability.cluster-id: /cluster_flink
+
+vim conf/masters
+dm-host214:8081
+dm-host211:8081
+
+scp conf/flink-conf.yaml wh1:/data/opt/flink-1.14.3/conf/
+scp conf/flink-conf.yaml wh2:/data/opt/flink-1.14.3/conf/
+
+scp conf/masters wh1:/data/opt/flink-1.14.3/conf/
+scp conf/masters wh2:/data/opt/flink-1.14.3/conf/
+
+masters文件需要在执行./bin/start-cluster.sh的节点
+./bin/start-cluster.sh
+
+flink run ./examples/batch/WordCount.jar --input hdfs:///data/app/input-data/words --output hdfs:///data/app/output/0429-12
+
+
+
+
+
+./bin/jobmanager.sh stop
+
+./bin/jobmanager.sh start
